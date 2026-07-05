@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gemini AI Chatbot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar">
+      <button id="new-chat-btn" class="new-chat-btn">+ New Chat</button>
+      <div id="session-list" class="session-list"></div>
+    </aside>
+
+    <div class="container">
+      <div class="header">
+        <h1>GEMINI AI</h1>
+        <p class="subtitle">chatbot &mdash; powered by Google</p>
+        <div class="header-accent"></div>
+      </div>
+
+      <div id="chat-box" class="chat-box"></div>
+
+      <div class="input-area">
+        <div class="toolbar">
+          <button type="button" id="attach-btn" class="attach-btn" title="Attach file">+</button>
+          <span id="file-label" class="file-label hidden"></span>
+          <button type="button" id="clear-file" class="clear-btn hidden">&times;</button>
+        </div>
+
+        <form id="chat-form">
+          <input type="text" id="user-input" placeholder="Type your message..." autocomplete="off" required />
+          <button type="submit" id="send-btn">Send</button>
+        </form>
+
+        <div id="file-preview" class="file-preview hidden"></div>
+      </div>
+    </div>
+  </div>
+
+  <input type="file" id="file-input" class="hidden" />
+  <script src="script.js"></script>
+  <div class="footer">&copy; 2026 <strong>Dito Ardi Pratama</strong>. All rights reserved.</div>
+</body>
+</html>
