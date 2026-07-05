@@ -8,11 +8,19 @@ const clearFileBtn = document.getElementById('clear-file');
 const filePreview = document.getElementById('file-preview');
 const sessionList = document.getElementById('session-list');
 const newChatBtn = document.getElementById('new-chat-btn');
+const captchaOverlay = document.getElementById('captcha-overlay');
+const captchaQuestion = document.getElementById('captcha-question');
+const captchaInput = document.getElementById('captcha-input');
+const captchaRefresh = document.getElementById('captcha-refresh');
+const captchaSubmit = document.getElementById('captcha-submit');
+const captchaError = document.getElementById('captcha-error');
 
 let selectedFile = null;
 let sessions = [];
 let activeSessionId = null;
 let sessionCounter = 0;
+let captchaAnswer = 0;
+let captchaSolved = false;
 
 newChatBtn.addEventListener('click', createSession);
 attachBtn.addEventListener('click', () => fileInput.click());
@@ -26,8 +34,21 @@ fileInput.addEventListener('change', () => {
 
 clearFileBtn.addEventListener('click', clearSelectedFile);
 
+captchaRefresh.addEventListener('click', (e) => {
+  e.stopPropagation();
+  generateCaptcha();
+  captchaInput.focus();
+});
+
+captchaSubmit.addEventListener('click', verifyCaptcha);
+captchaInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') verifyCaptcha();
+});
+
 form.addEventListener('submit', async function (e) {
   e.preventDefault();
+  if (!captchaSolved) return;
+
   const userMessage = input.value.trim();
   if (selectedFile) {
     await handleFileUpload(userMessage);
@@ -37,13 +58,38 @@ form.addEventListener('submit', async function (e) {
 });
 
 // ═════════════════════════════════════
+//  CAPTCHA - One Time Popup
+// ═════════════════════════════════════
+
+function generateCaptcha() {
+  const a = Math.floor(Math.random() * 20) + 1;
+  const b = Math.floor(Math.random() * 20) + 1;
+  captchaAnswer = a + b;
+  captchaQuestion.textContent = `${a} + ${b} = ?`;
+  captchaInput.value = '';
+  captchaError.classList.add('hidden');
+}
+
+function verifyCaptcha() {
+  if (String(captchaInput.value.trim()) === String(captchaAnswer)) {
+    captchaSolved = true;
+    captchaOverlay.classList.add('hidden');
+    input.focus();
+  } else {
+    captchaError.classList.remove('hidden');
+    captchaInput.value = '';
+    captchaInput.focus();
+  }
+}
+
+// ═════════════════════════════════════
 //  Session Management
 // ═════════════════════════════════════
 
 function createSession() {
   sessionCounter++;
   const id = 'session-' + Date.now();
-  const welcome = 'Halo! Ada yang bisa saya bantu? Saya bisa membaca teks, gambar, dokumen, dan audio.';
+  const welcome = 'Halo! Saya GEMINI RUN, asisten lari Anda. 🏃<br><br>Saya bisa membantu:<br>• Teknik & program latihan lari<br>• Sepatu lari & perlengkapan<br>• Nutrisi, hidrasi, & pola hidup<br>• Menganalisis file (gambar, dokumen, audio)<br><br>Apa yang ingin Anda tanyakan tentang lari?';
   const session = {
     id,
     title: 'Chat ' + sessionCounter,
@@ -324,3 +370,6 @@ function updateSessionTitle(firstMessage) {
 // ═════════════════════════════════════
 
 createSession();
+generateCaptcha();
+captchaOverlay.classList.remove('hidden');
+captchaInput.focus();

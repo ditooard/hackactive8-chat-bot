@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gemini AI Chatbot</title>
+  <title>GEMINI RUN — AI Running Coach</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;900&display=swap" rel="stylesheet">
@@ -18,8 +18,8 @@
 
     <div class="container">
       <div class="header">
-        <h1>GEMINI AI</h1>
-        <p class="subtitle">chatbot &mdash; powered by Google</p>
+        <h1>GEMINI RUN</h1>
+        <p class="subtitle">running coach &mdash; powered by Gemini AI</p>
         <div class="header-accent"></div>
       </div>
 
@@ -27,13 +27,13 @@
 
       <div class="input-area">
         <div class="toolbar">
-          <button type="button" id="attach-btn" class="attach-btn" title="Attach file">+</button>
+          <button type="button" id="attach-btn" class="attach-btn" title="Attach file">📎</button>
           <span id="file-label" class="file-label hidden"></span>
           <button type="button" id="clear-file" class="clear-btn hidden">&times;</button>
         </div>
 
         <form id="chat-form">
-          <input type="text" id="user-input" placeholder="Type your message..." autocomplete="off" required />
+          <input type="text" id="user-input" placeholder="Ask about running..." autocomplete="off" required />
           <button type="submit" id="send-btn">Send</button>
         </form>
 
@@ -43,7 +43,22 @@
   </div>
 
   <input type="file" id="file-input" class="hidden" />
-  <script src="script.js"></script>
   <div class="footer">&copy; 2026 <strong>Dito Ardi Pratama</strong>. All rights reserved.</div>
+
+  <div id="captcha-overlay" class="captcha-overlay">
+    <div class="captcha-popup">
+      <h2 class="captcha-title">Verify You're Human</h2>
+      <p class="captcha-desc">Answer this question to start using GEMINI RUN.</p>
+      <div class="captcha-question" id="captcha-question">0 + 0 = ?</div>
+      <div class="captcha-row">
+        <input type="text" id="captcha-input" class="captcha-input" placeholder="Your answer" autocomplete="off" />
+        <button type="button" id="captcha-refresh" class="captcha-refresh" title="New question">&#x21bb;</button>
+      </div>
+      <p id="captcha-error" class="captcha-error-text hidden">Wrong answer. Try again.</p>
+      <button type="button" id="captcha-submit" class="captcha-submit">Verify</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
