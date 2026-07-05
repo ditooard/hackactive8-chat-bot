@@ -51,6 +51,21 @@ npm run dev
 
 ---
 
+## 🚀 Push ke GitHub
+
+```bash
+# Tambahkan semua perubahan
+git add .
+
+# Commit perubahan
+git commit -m "pesan commit kamu"
+
+# Push ke branch main
+git push origin main
+```
+
+---
+
 ## 🔐 CAPTCHA
 
 Popup verifikasi matematika sekali saat pertama buka halaman. Setelah lolos, tidak perlu captcha lagi.
