@@ -1,0 +1,51 @@
+.pace-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 16px;
+  border-bottom: 3px solid #1A1A1A;
+}
+
+.pace-tab {
+  flex: 1;
+  padding: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  background: #F8F5F0;
+  color: #1A1A1A;
+  border: 3px solid #1A1A1A;
+  border-bottom: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: none;
+}
+
+.pace-tab:not(:last-child) { border-right: none; }
+
+.pace-tab.active { background: #1A1A1A; color: #FFFFFF; }
+.pace-tab:hover:not(.active) { background: #FFD633; }
+
+.pace-panel { display: block; }
+.pace-panel.hidden { display: none; }
+
+.pace-desc {
+  font-size: 12px;
+  font-weight: 500;
+  color: #888;
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+
+.calc-result {
+  margin-top: 16px;
+  padding: 14px;
+  background: #FFEEBB;
+  border: 3px solid #1A1A1A;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.calc-result.hidden { display: none; }

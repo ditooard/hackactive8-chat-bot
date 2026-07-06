@@ -18,6 +18,7 @@ hackactive8/
 │   ├── index.js
 │   ├── .env
 │   ├── running-context.md       # Knowledge base lari
+│   ├── user-preferences.json    # Persistent profile & Strava tokens
 │   └── package.json
 ├── .gitignore
 └── README.md
@@ -40,7 +41,7 @@ PORT=3000
 CLIENT_ORIGIN=http://localhost:3000
 ```
 
-Dapatkan API Key di https://aistudio.google.com/apikey
+Dapatkan API Key Gemini di https://aistudio.google.com/apikey
 
 ```bash
 npm run dev
@@ -51,24 +52,64 @@ npm run dev
 
 ---
 
-## 🚀 Push ke GitHub
+## 🧠 Fitur Lengkap
 
-```bash
-# Tambahkan semua perubahan
-git add .
+### 🎭 Gaya Bahasa Dinamis
+Pilih tone percakapan dari dropdown di header:
+| Mode | Deskripsi |
+|------|-----------|
+| 😎 **Santai** | Bahasa gaul, akrab, seperti ngobrol dengan teman |
+| 🎩 **Formal** | Bahasa baku, sopan, struktur kalimat rapi |
+| 🔥 **Motivator** | High energy, penuh semangat, banyak dorongan |
+| 💪 **Tegas** | Langsung, disiplin, no-nonsense |
 
-# Commit perubahan
-git commit -m "pesan commit kamu"
+### 🌤 Cuaca Real-time (gratis, tanpa API key)
+Cek kondisi cuaca terkini + tips lari berdasarkan suhu, kelembaban, dan angin.
+_API: Open-Meteo (gratis unlimited) + Geocoding API (gratis)_
+📍 Auto-detect kota via IP (ip-api.com gratis)
 
-# Push ke branch main
-git push origin main
-```
+### 💪 Motivational Quotes
+Dapatkan inspirasi lari secara random, diambil dari ZenQuotes.io (gratis) dengan fallback lokal.
+
+### 👤 Profil & Memory Jangka Panjang
+Simpan preferensi user: nama, target race, pace, experience, weekly mileage.
+Data tetap tersimpan antar sesi via `user-preferences.json`.
+
+### ⏱ Pace Calculator + Race Predictor + VDOT
+- Kalkulator pace: hitung pace/waktu/jarak dari 2 nilai diketahui
+- Prediksi waktu race dengan **Riegel Formula**: $$T_2 = T_1 \times (D_2 / D_1)^{1.06}$$
+- **VDOT Calculator** (Jack Daniels formula): hitung VO2max estimasi dari waktu race + zone latihan
+
+### 🗂 File Analysis
+| Fitur | Endpoint |
+|-------|----------|
+| 💬 Chat dengan riwayat + tone + konteks profil | `POST /api/chat` |
+| 🖼 Analisis gambar | `POST /generate-from-image` |
+| 📄 Analisis dokumen | `POST /generate-from-document` |
+| 🎵 Transkrip audio | `POST /generate-from-audio` |
+| 📋 Multi-session chat | Sidebar |
+
+---
+
+## 📡 API Endpoints
+
+| Method | Endpoint | Deskripsi |
+|--------|----------|-----------|
+| POST | `/api/chat` | Chat dengan tone & sessionId |
+| POST | `/generate-from-image` | Analisis gambar |
+| POST | `/generate-from-document` | Analisis dokumen |
+| POST | `/generate-from-audio` | Transkrip audio |
+| GET | `/api/weather?city=...` | Cuaca real-time (Open-Meteo) |
+| GET | `/api/quote` | Motivational quote random |
+| GET | `/api/geolocate` | Auto-detect kota via IP |
+| GET | `/api/preferences/:sessionId` | Get profil user |
+| POST | `/api/preferences/:sessionId` | Save profil user |
 
 ---
 
 ## 🔐 CAPTCHA
 
-Popup verifikasi matematika sekali saat pertama buka halaman. Setelah lolos, tidak perlu captcha lagi.
+Popup verifikasi matematika sekali saat pertama buka halaman.
 
 ---
 
@@ -81,23 +122,12 @@ Popup verifikasi matematika sekali saat pertama buka halaman. Setelah lolos, tid
 
 ---
 
-## 🧠 Fitur
-
-| Fitur | Endpoint |
-|-------|----------|
-| 💬 Chat dengan riwayat | `POST /api/chat` |
-| 🖼 Analisis gambar | `POST /generate-from-image` |
-| 📄 Analisis dokumen | `POST /generate-from-document` |
-| 🎵 Transkrip audio | `POST /generate-from-audio` |
-| 📋 Multi-session chat | Sidebar |
-
----
-
 ## 🛠 Teknologi
 
 **Backend:** Node.js, Express, Helmet, express-rate-limit, @google/genai, Multer  
 **Frontend:** Vanilla JS, HTML5, CSS3 (Neo-Brutalism)  
-**AI:** Google Gemini
+**AI:** Google Gemini  
+**External APIs:** Open-Meteo (gratis), ZenQuotes.io (gratis), ip-api.com (gratis)
 
 ---
 

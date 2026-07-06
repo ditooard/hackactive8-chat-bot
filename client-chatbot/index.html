@@ -12,14 +12,40 @@
 <body>
   <div class="app-layout">
     <aside class="sidebar" id="sidebar">
-      <button id="new-chat-btn" class="new-chat-btn">+ New Chat</button>
+      <button id="new-chat-btn" class="new-chat-btn" data-i18n="new_chat">+ New Chat</button>
+
+      <div class="sidebar-divider"></div>
+
+      <button id="profile-btn" class="sidebar-action-btn" data-i18n="profile">👤 Profile</button>
+      <button id="quote-btn" class="sidebar-action-btn" data-i18n="quote">💪 Quote</button>
+      <button id="weather-btn" class="sidebar-action-btn" data-i18n="weather">🌤 Cuaca</button>
+      <button id="pace-calc-btn" class="sidebar-action-btn" data-i18n="pace_calc">⏱ Pace Calc</button>
+
+      <div class="sidebar-divider"></div>
+
       <div id="session-list" class="session-list"></div>
     </aside>
 
     <div class="container">
       <div class="header">
-        <h1>GEMINI RUN</h1>
-        <p class="subtitle">running coach &mdash; powered by Gemini AI</p>
+        <div class="header-top">
+          <div>
+            <h1>GEMINI RUN</h1>
+            <p class="subtitle" data-i18n="subtitle">running coach &mdash; powered by Gemini AI</p>
+          </div>
+          <div class="header-controls">
+            <div class="tone-selector-wrapper">
+              <label for="tone-selector" class="tone-label" data-i18n="tone_label">TONE</label>
+              <select id="tone-selector" class="tone-selector">
+                <option value="santai" data-i18n="tone_santai">Casual</option>
+                <option value="formal" data-i18n="tone_formal">Formal</option>
+                <option value="motivator" selected data-i18n="tone_motivator">Motivator</option>
+                <option value="tegas" data-i18n="tone_tegas">Firm</option>
+              </select>
+            </div>
+            <button id="lang-toggle" class="lang-toggle">ID</button>
+          </div>
+        </div>
         <div class="header-accent"></div>
       </div>
 
@@ -27,14 +53,14 @@
 
       <div class="input-area">
         <div class="toolbar">
-          <button type="button" id="attach-btn" class="attach-btn" title="Attach file">📎</button>
+          <button type="button" id="attach-btn" class="attach-btn" data-i18n="attach_title" title="Attach file">📎</button>
           <span id="file-label" class="file-label hidden"></span>
           <button type="button" id="clear-file" class="clear-btn hidden">&times;</button>
         </div>
 
         <form id="chat-form">
-          <input type="text" id="user-input" placeholder="Ask about running..." autocomplete="off" required />
-          <button type="submit" id="send-btn">Send</button>
+          <input type="text" id="user-input" data-i18n="input_placeholder" placeholder="Ask about running..." autocomplete="off" required />
+          <button type="submit" id="send-btn" data-i18n="send">Send</button>
         </form>
 
         <div id="file-preview" class="file-preview hidden"></div>
@@ -43,22 +69,258 @@
   </div>
 
   <input type="file" id="file-input" class="hidden" />
-  <div class="footer">&copy; 2026 <strong>Dito Ardi Pratama</strong>. All rights reserved.</div>
+  <div class="footer" data-i18n="footer">&copy; 2026 <strong>Dito Ardi Pratama</strong>. All rights reserved.</div>
 
+  <!-- CAPTCHA -->
   <div id="captcha-overlay" class="captcha-overlay">
     <div class="captcha-popup">
-      <h2 class="captcha-title">Verify You're Human</h2>
-      <p class="captcha-desc">Answer this question to start using GEMINI RUN.</p>
+      <h2 class="captcha-title" data-i18n="captcha_title">Verify You're Human</h2>
+      <p class="captcha-desc" data-i18n="captcha_desc">Answer this question to start using GEMINI RUN.</p>
       <div class="captcha-question" id="captcha-question">0 + 0 = ?</div>
       <div class="captcha-row">
-        <input type="text" id="captcha-input" class="captcha-input" placeholder="Your answer" autocomplete="off" />
-        <button type="button" id="captcha-refresh" class="captcha-refresh" title="New question">&#x21bb;</button>
+        <input type="text" id="captcha-input" class="captcha-input" data-i18n="captcha_input" placeholder="Your answer" autocomplete="off" />
+        <button type="button" id="captcha-refresh" class="captcha-refresh" data-i18n="captcha_refresh" title="New question">&#x21bb;</button>
       </div>
-      <p id="captcha-error" class="captcha-error-text hidden">Wrong answer. Try again.</p>
-      <button type="button" id="captcha-submit" class="captcha-submit">Verify</button>
+      <p id="captcha-error" class="captcha-error-text hidden" data-i18n="captcha_error">Wrong answer. Try again.</p>
+      <button type="button" id="captcha-submit" class="captcha-submit" data-i18n="captcha_submit">Verify</button>
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <!-- PROFILE MODAL -->
+  <div id="profile-modal" class="modal-overlay hidden">
+    <div class="modal-popup">
+      <div class="modal-header">
+        <h2 class="modal-title" data-i18n="profile_title">👤 My Profile</h2>
+        <button type="button" class="modal-close" id="profile-modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" data-i18n="profile_name">Name</label>
+          <input type="text" id="profile-name" class="form-input" data-i18n="profile_name_plh" placeholder="Your name" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" data-i18n="profile_target_race">Target Race</label>
+          <select id="profile-target-race" class="form-input">
+            <option value="" data-i18n="profile_select">— Select —</option>
+            <option value="5K" data-i18n="profile_5k">5K</option>
+            <option value="10K" data-i18n="profile_10k">10K</option>
+            <option value="HM" data-i18n="profile_hm">Half Marathon (21.1K)</option>
+            <option value="FM" data-i18n="profile_fm">Full Marathon (42.2K)</option>
+            <option value="Ultra" data-i18n="profile_ultra">Ultra Marathon</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" data-i18n="profile_target_time">Target Time</label>
+          <div class="input-group">
+            <input type="number" id="profile-th" class="input-group-input" min="0" max="23" placeholder="0" />
+            <span class="input-group-label" data-i18n="profile_hours">h</span>
+            <input type="number" id="profile-tm" class="input-group-input" min="0" max="59" placeholder="0" />
+            <span class="input-group-label" data-i18n="profile_minutes">m</span>
+            <input type="number" id="profile-ts" class="input-group-input" min="0" max="59" placeholder="0" />
+            <span class="input-group-label" data-i18n="profile_seconds">s</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" data-i18n="profile_pace">Current Pace</label>
+          <div class="input-group">
+            <input type="number" id="profile-pm" class="input-group-input" min="0" max="59" placeholder="0" />
+            <span class="input-group-label" data-i18n="profile_pace_min">min</span>
+            <input type="number" id="profile-ps" class="input-group-input" min="0" max="59" placeholder="0" />
+            <span class="input-group-label" data-i18n="profile_pace_sec">sec/km</span>
+            <button type="button" id="profile-pace-calc-btn" class="input-group-btn" data-i18n="profile_pace_calc">Calc Pace</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" data-i18n="profile_experience">Experience</label>
+          <select id="profile-experience" class="form-input">
+            <option value="Beginner" data-i18n="profile_exp_beginner">Beginner</option>
+            <option value="Intermediate" selected data-i18n="profile_exp_intermediate">Intermediate</option>
+            <option value="Advanced" data-i18n="profile_exp_advanced">Advanced</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" data-i18n="profile_mileage">Weekly Mileage</label>
+          <div class="input-group">
+            <input type="number" id="profile-mileage" class="form-input" min="0" placeholder="0" />
+            <span class="input-group-label" data-i18n="profile_mileage_unit">km</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="profile-save-btn" class="modal-btn primary" data-i18n="profile_save">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MINI PACE POPUP -->
+  <div id="pace-popup" class="modal-overlay hidden">
+    <div class="modal-popup mini-popup">
+      <div class="modal-header">
+        <h2 class="modal-title" data-i18n="popup_title">⏱ Pace Calculator</h2>
+        <button type="button" class="modal-close" id="pace-popup-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="form-label" data-i18n="popup_dist">Distance (km)</p>
+        <input type="number" id="popup-dist" class="form-input" min="0" />
+        <p class="form-label" style="margin-top:12px" data-i18n="popup_time">Time (min)</p>
+        <input type="number" id="popup-time" class="form-input" min="0" />
+        <button type="button" id="popup-calc-btn" class="modal-btn primary" style="margin-top:16px" data-i18n="popup_calc">Calculate</button>
+        <div id="popup-result" class="calc-result hidden"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PACE MODAL (full) -->
+  <div id="pace-modal" class="modal-overlay hidden">
+    <div class="modal-popup">
+      <div class="modal-header">
+        <h2 class="modal-title" data-i18n="pc_title">⏱ Pace Calculator</h2>
+        <button type="button" class="modal-close" id="pace-modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="pace-tabs">
+          <button class="pace-tab active" data-tab="calc" data-i18n="pc_tab_calc">Calculator</button>
+          <button class="pace-tab" data-tab="predict" data-i18n="pc_tab_predict">Predictor</button>
+          <button class="pace-tab" data-tab="vdot" data-i18n="pc_tab_vdot">VDOT</button>
+        </div>
+
+        <div id="pace-calc-panel" class="pace-panel">
+          <p class="pace-desc" data-i18n="pc_calc_desc">Fill 2 of 3 values to calculate the rest.</p>
+          <div class="form-group">
+            <label class="form-label" data-i18n="pc_distance">Distance (km)</label>
+            <input type="number" id="pc-distance" class="form-input" min="0" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="pc_time">Time</label>
+            <div class="input-group">
+              <input type="number" id="pct-h" class="input-group-input" min="0" max="99" data-group="pct" />
+              <span class="input-group-label" data-i18n="profile_hours">h</span>
+              <input type="number" id="pct-m" class="input-group-input" min="0" max="59" data-group="pct" />
+              <span class="input-group-label" data-i18n="profile_minutes">m</span>
+              <input type="number" id="pct-s" class="input-group-input" min="0" max="59" data-group="pct" />
+              <span class="input-group-label" data-i18n="profile_seconds">s</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="pc_pace">Pace (/km)</label>
+            <div class="input-group">
+              <input type="number" id="pcp-m" class="input-group-input" min="0" max="59" data-group="pcp" />
+              <span class="input-group-label" data-i18n="profile_pace_min">min</span>
+              <input type="number" id="pcp-s" class="input-group-input" min="0" max="59" data-group="pcp" />
+              <span class="input-group-label" data-i18n="profile_pace_sec">sec</span>
+            </div>
+          </div>
+          <button type="button" id="pc-calc-btn" class="modal-btn primary" data-i18n="pc_calc_btn">Calculate</button>
+          <div id="pc-result" class="calc-result hidden"></div>
+        </div>
+
+        <div id="pace-predict-panel" class="pace-panel hidden">
+          <p class="pace-desc" data-i18n="pc_predict_desc">Enter 5K or 10K PR to predict other race times.</p>
+          <div class="form-group">
+            <label class="form-label" data-i18n="pc_pr_5k">PR 5K</label>
+            <div class="input-group">
+              <input type="number" id="pp5-m" class="input-group-input" min="0" max="59" data-group="pp5" />
+              <span class="input-group-label" data-i18n="profile_pace_min">m</span>
+              <input type="number" id="pp5-s" class="input-group-input" min="0" max="59" data-group="pp5" />
+              <span class="input-group-label" data-i18n="profile_pace_sec">s</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="pc_pr_10k">PR 10K</label>
+            <div class="input-group">
+              <input type="number" id="pp10-m" class="input-group-input" min="0" max="59" data-group="pp10" />
+              <span class="input-group-label" data-i18n="profile_pace_min">m</span>
+              <input type="number" id="pp10-s" class="input-group-input" min="0" max="59" data-group="pp10" />
+              <span class="input-group-label" data-i18n="profile_pace_sec">s</span>
+            </div>
+          </div>
+          <button type="button" id="pp-calc-btn" class="modal-btn primary" data-i18n="pc_predict_btn">Predict</button>
+          <div id="pp-result" class="calc-result hidden"></div>
+        </div>
+
+        <div id="pace-vdot-panel" class="pace-panel hidden">
+          <p class="pace-desc" data-i18n="pc_vdot_desc">Enter your latest race time to calculate VDOT score.</p>
+          <div class="form-group">
+            <label class="form-label" data-i18n="pc_vdot_dist">Distance</label>
+            <select id="vdot-distance" class="form-input">
+              <option value="1500">1500m</option>
+              <option value="3000">3000m</option>
+              <option value="5000" selected>5K</option>
+              <option value="10000">10K</option>
+              <option value="21097">Half Marathon</option>
+              <option value="42195">Full Marathon</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="pc_vdot_time">Time</label>
+            <div class="input-group">
+              <input type="number" id="vdot-h" class="input-group-input" min="0" max="99" data-group="vdot" />
+              <span class="input-group-label" data-i18n="profile_hours">h</span>
+              <input type="number" id="vdot-m" class="input-group-input" min="0" max="59" data-group="vdot" />
+              <span class="input-group-label" data-i18n="profile_minutes">m</span>
+              <input type="number" id="vdot-s" class="input-group-input" min="0" max="59" data-group="vdot" />
+              <span class="input-group-label" data-i18n="profile_seconds">s</span>
+            </div>
+          </div>
+          <button type="button" id="vdot-calc-btn" class="modal-btn primary" data-i18n="pc_vdot_btn">Calculate VDOT</button>
+          <div id="vdot-result" class="calc-result hidden"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEATHER MODAL -->
+  <div id="weather-modal" class="modal-overlay hidden">
+    <div class="modal-popup weather-popup">
+      <div class="modal-header">
+        <h2 class="modal-title" data-i18n="weather_title">🌤 Weather</h2>
+        <button type="button" class="modal-close" id="weather-modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="weather-input-row">
+          <input type="text" id="weather-city" class="form-input" data-i18n="weather_city" />
+          <button type="button" id="weather-fetch-btn" class="modal-btn primary" data-i18n="weather_check">Check</button>
+          <button type="button" id="weather-auto-btn" class="modal-btn secondary" data-i18n="weather_detect" title="Detect my location">📍</button>
+        </div>
+        <div id="weather-result" class="weather-result hidden">
+          <div class="weather-main">
+            <div class="weather-temp" id="w-temp">--</div>
+            <div class="weather-desc" id="w-desc">--</div>
+          </div>
+          <div class="weather-details">
+            <div class="weather-detail-item">
+              <span class="wd-label" data-i18n="weather_feels">Feels</span>
+              <span class="wd-value" id="w-feels">--</span>
+            </div>
+            <div class="weather-detail-item">
+              <span class="wd-label" data-i18n="weather_humidity">Humidity</span>
+              <span class="wd-value" id="w-humidity">--</span>
+            </div>
+            <div class="weather-detail-item">
+              <span class="wd-label" data-i18n="weather_wind">Wind</span>
+              <span class="wd-value" id="w-wind">--</span>
+            </div>
+          </div>
+          <div class="weather-tip" id="w-tip">--</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="locales.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/captcha.js"></script>
+  <script src="js/session.js"></script>
+  <script src="js/chat.js"></script>
+  <script src="js/profile.js"></script>
+  <script src="js/weather.js"></script>
+  <script src="js/pace.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>
